@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: orderDummy
+
+  springdoc:
+    swagger-ui:
+      path: swagger-ui
+      operationsSorter: method
+      tagsSorter: alpha
+
+server:
+  port: '8080'
+  servlet:
+    context-path: /apiDummy
+  max-http-request-header-size: 10000000
+  forward-headers-strategy: framework

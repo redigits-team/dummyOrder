@@ -3,6 +3,10 @@ package com.redigits.dummyOrder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +45,11 @@ public class DemoApplication {
         orders.add(new Order(3, 3, "Headphones", 1, 75.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 3));
     }
 
-    // 1. API per la lista degli ordini
+    @Operation(summary = "Retrieve a list of all orders", description = "Returns a detailed list of orders with client and payment information")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of orders returned successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/orders")
     public List<OrderResponse> getOrders() {
         List<OrderResponse> ordersWithDetails = new ArrayList<>();
@@ -53,19 +61,34 @@ public class DemoApplication {
         return ordersWithDetails;
     }
 
-    // 2. API per la lista dei clienti
+    @Operation(summary = "Retrieve a list of clients", description = "Returns a list of all clients")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of clients returned successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/clients")
     public List<Client> getClients() {
         return clients;
     }
 
-    // 3. API per i dettagli del pagamento di un ordine
+    @Operation(summary = "Retrieve payment details for a specific order", description = "Returns the payment details for the specified order ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Payment details returned successfully"),
+        @ApiResponse(responseCode = "404", description = "Payment not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/payment/{orderId}")
-    public Payment getPayment(@PathVariable int orderId) {
+    public Payment getPayment(
+        @Parameter(description = "ID of the order to retrieve payment for", required = true)
+        @PathVariable int orderId) {
         return payments.stream().filter(p -> p.getOrderId() == orderId).findFirst().orElse(null);
     }
 
-    // 4. API per inviare una richiesta di reso
+    @Operation(summary = "Submit a new return request", description = "Creates a new return request for an order")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Return request created successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/return")
     public ReturnRequest createReturnRequest(@RequestBody ReturnRequest newReturnRequest) {
         // Simula l'aggiunta di una nuova richiesta di reso
@@ -76,7 +99,11 @@ public class DemoApplication {
         return newReturnRequest;
     }
 
-    // 5. API per ottenere tutte le richieste di reso
+    @Operation(summary = "Retrieve all return requests", description = "Returns a list of all return requests")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "List of return requests returned successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/returns")
     public List<ReturnRequest> getReturnRequests() {
         return returnRequests;
