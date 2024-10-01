@@ -86,7 +86,9 @@ public class DemoApplication {
         for (Order order : orders) {
             Client client = clients.stream().filter(c -> c.getId() == order.getClientId()).findFirst().orElse(null);
             Payment payment = payments.stream().filter(p -> p.getId() == order.getPaymentId()).findFirst().orElse(null);
-            ordersWithDetails.add(new OrderResponse(order, client, payment));
+            Shipment shipment = shipments.stream().filter(p -> p.getId() == order.getShipmentId()).findFirst().orElse(null);
+
+            ordersWithDetails.add(new OrderResponse(order, client, payment,shipment));
         }
         return ordersWithDetails;
     }

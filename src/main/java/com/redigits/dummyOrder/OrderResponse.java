@@ -9,8 +9,9 @@ public class OrderResponse {
     private Client client;
     private Address shippingAddress;
     private Payment payment;
+    private Shipment shipment;
 
-    public OrderResponse(Order order, Client client, Payment payment) {
+    public OrderResponse(Order order, Client client, Payment payment,Shipment shipment) {
         this.orderId = order.getId();
         this.product = order.getProduct();
         this.quantity = order.getQuantity();
@@ -18,6 +19,7 @@ public class OrderResponse {
         this.client = client;
         this.shippingAddress = order.getShippingAddress();
         this.payment = payment;
+        this.shipment = shipment;
     }
 
     // Getters e setters
@@ -28,5 +30,6 @@ public class OrderResponse {
     public Client getClient() { return client; }
     public Address getShippingAddress() { return shippingAddress; }
     public Payment getPayment() { return payment; }
+    public Shipment getShipment() { return shipment; }
     
 }
