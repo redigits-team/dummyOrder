@@ -26,6 +26,8 @@ public class DemoApplication {
     private List<Payment> payments = new ArrayList<>();
     private List<Order> orders = new ArrayList<>();
     private List<ReturnRequest> returnRequests = new ArrayList<>();
+    private List<Shipment> shipments = new ArrayList<>();
+
 
     public DemoApplication() {
         // Populate some dummy data
@@ -48,14 +50,27 @@ public class DemoApplication {
         payments.add(new Payment(4, 41234, 100.00, "EUR", "Completed", "Credit Card", "2024-09-25"));
         payments.add(new Payment(5, 346421, 250.00, "EUR", "Pending", "PayPal", "2024-09-26"));
         payments.add(new Payment(6, 3244421, 75.50, "EUR", "Completed", "Bank Transfer", "2024-09-24"));
+        payments.add(new Payment(7, 3244422, 7.50, "EUR", "Completed", "Bank Transfer", "2024-09-24"));
 
-        orders.add(new Order(1, 1, "Padella triplay", 1, 15.50, new Address("Via Roma, 10", "Roma", "00100", "Italia"), 1));
-        orders.add(new Order(2, 2, "Friggitrice ad aria", 2, 45.90, new Address("Corso Milano, 20", "Milano", "20100", "Italia"), 2));
-        orders.add(new Order(3, 3, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 3));
 
-        orders.add(new Order(41234, 5, "Padella triplay", 1, 15.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 4));
-        orders.add(new Order(346421, 5, "Friggitrice ad aria", 1, 45.90, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 5));
-        orders.add(new Order(3244421, 5, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 6));
+        orders.add(new Order(1, 1, "Padella triplay", 1, 15.50, new Address("Via Roma, 10", "Roma", "00100", "Italia"), 1,"Spedito",6));
+        orders.add(new Order(2, 2, "Friggitrice ad aria", 2, 45.90, new Address("Corso Milano, 20", "Milano", "20100", "Italia"), 2, "In lavorazione",7));
+        orders.add(new Order(3, 3, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 3, "Spedito",8));
+
+        orders.add(new Order(41234, 5, "Padella triplay", 1, 15.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 4,"Spedito",1));
+        orders.add(new Order(346421, 5, "Friggitrice ad aria", 1, 45.90, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 5,"In lavorazione",4));
+        orders.add(new Order(3244421, 5, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 6,"consegnato",2));
+        orders.add(new Order(3244422, 5, "Filtro acqua brt", 1, 7.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 7,"Spedito",3));
+
+
+        shipments.add(new Shipment(1,41234,"Roma", "In consegna", "30-09-24", "10-10-24"));
+        shipments.add(new Shipment(2,3244421,"Roma", "Consegnato", "30-09-24", "10-10-24"));
+        shipments.add(new Shipment(3,3244422,"Roma", "In transito", "30-09-24", "10-10-24")); 
+        shipments.add(new Shipment(4,346421,"Roma", "Non partita", "", "10-10-24"));
+        shipments.add(new Shipment(6,1,"Roma", "Non partita", "", "10-10-24"));
+        shipments.add(new Shipment(7,2,"Roma", "Non partita", "", "10-10-24"));
+        shipments.add(new Shipment(8,3,"Roma", "Non partita", "", "10-10-24"));
+
 
 
     }
@@ -97,6 +112,13 @@ public class DemoApplication {
         @Parameter(description = "ID of the order to retrieve payment for", required = true)
         @PathVariable int orderId) {
         return payments.stream().filter(p -> p.getOrderId() == orderId).findFirst().orElse(null);
+    }
+
+    @GetMapping("/shipment/{orderId}")
+    public Shipment getShipment(
+        @Parameter(description = "ID of the order to retrieve shipment for", required = true)
+        @PathVariable int orderId) {
+        return shipments.stream().filter(p -> p.getOrderId() == orderId).findFirst().orElse(null);
     }
 
     @Operation(summary = "Submit a new return request", description = "Creates a new return request for an order")
