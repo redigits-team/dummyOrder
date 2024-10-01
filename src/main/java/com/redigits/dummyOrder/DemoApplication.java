@@ -35,14 +35,29 @@ public class DemoApplication {
             new Address("Corso Milano, 20", "Milano", "20100", "Italia")));
         clients.add(new Client(3, "Giulia Verdi", "giulia.verdi@example.com", "+39 339 1112233", 
             new Address("Via Napoli, 30", "Napoli", "80100", "Italia")));
+        clients.add(new Client(4, "Domenico Scelza", "domenico.scelza@gmail.com", "+39 340 9876543", 
+            new Address("via petrocchi , 13", "Battipaglia", "84091", "Italia")));
+        clients.add(new Client(5, "Laura Mandelli", "mandelli.laura@kasanova.it", "+39 339 1112233", 
+            new Address("Via Napoli, 30", "Napoli", "80100", "Italia")));
+            
 
         payments.add(new Payment(1, 1, 100.00, "EUR", "Completed", "Credit Card", "2024-09-25"));
         payments.add(new Payment(2, 2, 250.00, "EUR", "Pending", "PayPal", "2024-09-26"));
         payments.add(new Payment(3, 3, 75.50, "EUR", "Completed", "Bank Transfer", "2024-09-24"));
 
-        orders.add(new Order(1, 1, "Laptop", 1, 100.00, new Address("Via Roma, 10", "Roma", "00100", "Italia"), 1));
-        orders.add(new Order(2, 2, "Smartphone", 2, 125.00, new Address("Corso Milano, 20", "Milano", "20100", "Italia"), 2));
-        orders.add(new Order(3, 3, "Headphones", 1, 75.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 3));
+        payments.add(new Payment(4, 41234, 100.00, "EUR", "Completed", "Credit Card", "2024-09-25"));
+        payments.add(new Payment(5, 346421, 250.00, "EUR", "Pending", "PayPal", "2024-09-26"));
+        payments.add(new Payment(6, 3244421, 75.50, "EUR", "Completed", "Bank Transfer", "2024-09-24"));
+
+        orders.add(new Order(1, 1, "Padella triplay", 1, 15.50, new Address("Via Roma, 10", "Roma", "00100", "Italia"), 1));
+        orders.add(new Order(2, 2, "Friggitrice ad aria", 2, 45.90, new Address("Corso Milano, 20", "Milano", "20100", "Italia"), 2));
+        orders.add(new Order(3, 3, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 3));
+
+        orders.add(new Order(41234, 5, "Padella triplay", 1, 15.50, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 4));
+        orders.add(new Order(346421, 5, "Friggitrice ad aria", 1, 45.90, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 5));
+        orders.add(new Order(3244421, 5, "Tavolo hasperide", 1, 175.00, new Address("Via Napoli, 30", "Napoli", "80100", "Italia"), 6));
+
+
     }
 
     @Operation(summary = "Retrieve a list of all orders", description = "Returns a detailed list of orders with client and payment information")
